@@ -1,0 +1,2094 @@
+/* ═══════════════════════════════════════════════════════════════
+   FOR MEMBERS PAGE STYLES — FitTrack
+   Inspired by thegymproject.in/for-members/
+   Cinematic dark theme, realistic interactive phone mockup,
+   features grid, Pro comparison, Health sync simulation & FAQ.
+   ═══════════════════════════════════════════════════════════════ */
+
+.fm-page {
+  --fm-accent: #6C63FF;
+  --fm-accent-light: #8B83FF;
+  --fm-accent-glow: rgba(108, 99, 255, 0.25);
+  --fm-cyan: #06B6D4;
+  --fm-emerald: #10B981;
+  --fm-rose: #F43F5E;
+  --fm-amber: #F59E0B;
+  --fm-bg: #0B0B0D;
+  --fm-card: #111422;
+  --fm-card-alt: #181C2E;
+  --fm-border: rgba(255, 255, 255, 0.08);
+  --fm-border-strong: rgba(255, 255, 255, 0.16);
+  --fm-text: #F1F2F6;
+  --fm-muted: #9CA3AF;
+  --fm-font-display: 'Outfit', 'Inter', sans-serif;
+  --fm-font-body: 'Inter', sans-serif;
+
+  background: var(--fm-bg);
+  color: var(--fm-text);
+  font-family: var(--fm-font-body);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── ForMembers Light Theme ──────────────────────────── */
+[data-theme="light"] .fm-page {
+  --fm-bg: #F5F6FA;
+  --fm-card: #FFFFFF;
+  --fm-card-alt: #F0F1F5;
+  --fm-border: rgba(0, 0, 0, 0.1);
+  --fm-border-strong: rgba(0, 0, 0, 0.18);
+  --fm-text: #1A1D2E;
+  --fm-muted: #4B5563;
+  --fm-accent-glow: rgba(108, 99, 255, 0.12);
+}
+
+.fm-page *, .fm-page *::before, .fm-page *::after {
+  box-sizing: border-box;
+}
+
+.fm-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Top Header / Nav ──────────────────────────────────────── */
+.fm-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(11, 11, 13, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--fm-border);
+  padding: 16px 0;
+}
+
+.fm-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fm-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.fm-brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--fm-accent), var(--fm-cyan));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: #fff;
+  box-shadow: 0 4px 14px var(--fm-accent-glow);
+}
+
+.fm-brand-name {
+  font-family: var(--fm-font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.fm-nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+@media (max-width: 768px) {
+  .fm-nav {
+    display: none;
+  }
+}
+
+.fm-nav a {
+  color: var(--fm-muted);
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.fm-nav a:hover, .fm-nav a.active {
+  color: #fff;
+}
+
+.fm-header-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fm-user-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(108, 99, 255, 0.15);
+  border: 1px solid rgba(108, 99, 255, 0.3);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--fm-accent-light);
+}
+
+.fm-user-chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--fm-emerald);
+  box-shadow: 0 0 8px var(--fm-emerald);
+}
+
+/* ── Hero Section ──────────────────────────────────────────── */
+.fm-hero {
+  position: relative;
+  padding: 64px 0 80px;
+  overflow: hidden;
+}
+
+.fm-hero-glow {
+  position: absolute;
+  top: 10%;
+  left: 30%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(108, 99, 255, 0.18), transparent 70%);
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.fm-hero-split {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: 48px;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 992px) {
+  .fm-hero-split {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.fm-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--fm-accent-light);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+
+.fm-hero h1 {
+  font-family: var(--fm-font-display);
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.fm-hero h1 .highlight {
+  background: linear-gradient(135deg, #fff 30%, var(--fm-accent-light) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.fm-hero-lede {
+  font-size: 1.1rem;
+  color: var(--fm-muted);
+  line-height: 1.7;
+  margin-bottom: 32px;
+  max-width: 560px;
+}
+
+.fm-hero-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fm-highlight-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.95rem;
+  color: #E2E8F0;
+}
+
+.fm-highlight-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--fm-emerald);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── Interactive Phone Screen Mockup ───────────────────────── */
+.fm-phone-shot {
+  display: flex;
+  justify-content: center;
+}
+
+.fm-phone {
+  width: 100%;
+  max-width: 340px;
+  border-radius: 38px;
+  padding: 10px;
+  background: #05080d;
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.75),
+    0 0 40px rgba(108, 99, 255, 0.15);
+  position: relative;
+}
+
+.fm-phone::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  z-index: 10;
+}
+
+.fm-phone-screen {
+  background: #0D101C;
+  border-radius: 30px;
+  overflow: hidden;
+  height: 640px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Phone Status Bar */
+.fm-phone-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  color: #fff;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.fm-phone-status-icons {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.fm-phone-status-icons .bar {
+  width: 3px;
+  height: 8px;
+  background: #fff;
+  border-radius: 1px;
+}
+
+.fm-phone-status-icons .bat {
+  width: 16px;
+  height: 8px;
+  border: 1px solid #fff;
+  border-radius: 2px;
+  position: relative;
+}
+
+.fm-phone-status-icons .bat::after {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  bottom: 1px;
+  width: 9px;
+  background: var(--fm-emerald);
+  border-radius: 1px;
+}
+
+/* Phone App Body */
+.fm-phone-app {
+  flex: 1;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.fm-phone-app::-webkit-scrollbar {
+  display: none;
+}
+
+.fm-phone-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fm-phone-title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.fm-phone-signout {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: var(--fm-muted);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.fm-phone-signout:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Phone Check-in Card */
+.fm-phone-checkin-card {
+  background: rgba(108, 99, 255, 0.12);
+  border: 1px solid var(--fm-accent);
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.fm-phone-checkin-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fm-phone-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fm-accent-light);
+}
+
+.fm-phone-body {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.fm-phone-checkout-btn {
+  background: transparent;
+  border: 1px solid rgba(244, 63, 94, 0.5);
+  color: var(--fm-rose);
+  border-radius: 8px;
+  padding: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+}
+
+.fm-phone-checkout-btn:hover {
+  background: rgba(244, 63, 94, 0.15);
+}
+
+.fm-phone-checkout-btn.checked-out {
+  border-color: var(--fm-emerald);
+  color: var(--fm-emerald);
+}
+
+.fm-phone-checkout-btn.checked-out:hover {
+  background: rgba(16, 185, 129, 0.15);
+}
+
+/* Generic Phone Content Card */
+.fm-phone-card {
+  background: rgba(22, 25, 48, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fm-phone-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fm-muted);
+  margin-top: 2px;
+}
+
+.fm-phone-workout-item {
+  border-left: 2px solid var(--fm-accent);
+  padding-left: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  transition: all 0.15s ease;
+}
+
+.fm-phone-workout-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 0 6px 6px 0;
+}
+
+.fm-phone-workout-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.fm-phone-workout-sub {
+  font-size: 11px;
+  color: var(--fm-muted);
+}
+
+.fm-phone-workout-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: transparent;
+  transition: all 0.15s ease;
+}
+
+.fm-phone-workout-item.done .fm-phone-workout-check {
+  background: var(--fm-emerald);
+  border-color: var(--fm-emerald);
+  color: #fff;
+}
+
+.fm-phone-workout-item.done .fm-phone-workout-name {
+  text-decoration: line-through;
+  color: var(--fm-muted);
+}
+
+/* Macro Pills */
+.fm-phone-pills-row {
+  display: flex;
+  gap: 6px;
+}
+
+.fm-phone-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #E2E8F0;
+}
+
+.fm-phone-pill.accent {
+  background: rgba(108, 99, 255, 0.2);
+  color: var(--fm-accent-light);
+}
+
+.fm-phone-pill.amber {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--fm-amber);
+}
+
+.fm-phone-meal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  padding-bottom: 5px;
+}
+
+.fm-phone-meal-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Phone Bottom Nav Tabs */
+.fm-phone-tabs {
+  flex-shrink: 0;
+  display: flex;
+  background: #090B12;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 0 10px;
+}
+
+.fm-phone-tab {
+  flex: 1;
+  text-align: center;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--fm-muted);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  transition: color 0.15s ease;
+}
+
+.fm-phone-tab.active {
+  color: var(--fm-accent-light);
+}
+
+/* ── "What You Open It For" 6-card Grid ─────────────────────── */
+.fm-features-section {
+  padding: 72px 0;
+  border-top: 1px solid var(--fm-border);
+}
+
+.fm-section-title {
+  font-family: var(--fm-font-display);
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 40px;
+}
+
+.fm-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .fm-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .fm-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fm-feature-card {
+  background: var(--fm-card);
+  border: 1px solid var(--fm-border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.fm-feature-card:hover {
+  background: var(--fm-card-alt);
+  border-color: var(--fm-border-strong);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.fm-feature-icon-chip {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(108, 99, 255, 0.15);
+  color: var(--fm-accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 18px;
+}
+
+.fm-feature-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.fm-feature-desc {
+  font-size: 0.92rem;
+  color: var(--fm-muted);
+  line-height: 1.6;
+}
+
+/* ── Member Pro Tier Comparison ────────────────────────────── */
+.fm-tiers-section {
+  padding: 72px 0;
+  border-top: 1px solid var(--fm-border);
+}
+
+.fm-tiers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 36px;
+}
+
+@media (max-width: 768px) {
+  .fm-tiers-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fm-tier-card {
+  background: var(--fm-card);
+  border: 1px solid var(--fm-border);
+  border-radius: 20px;
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.fm-tier-card.featured {
+  background: linear-gradient(180deg, rgba(24, 28, 46, 0.9) 0%, rgba(17, 20, 34, 0.95) 100%);
+  border-color: var(--fm-accent);
+  box-shadow: 0 0 35px rgba(108, 99, 255, 0.18);
+}
+
+.fm-tier-badge {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: rgba(108, 99, 255, 0.2);
+  border: 1px solid var(--fm-accent);
+  color: var(--fm-accent-light);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+.fm-tier-name {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.fm-tier-scope {
+  font-size: 0.95rem;
+  color: var(--fm-muted);
+  margin-bottom: 8px;
+}
+
+.fm-tier-price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--fm-cyan);
+  margin-bottom: 24px;
+}
+
+.fm-tier-unlocks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fm-tier-unlock-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.93rem;
+  color: var(--fm-text);
+}
+
+.fm-tier-check-icon {
+  color: var(--fm-emerald);
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+/* ── Apple Watch Simulation Section ────────────────────────── */
+.fm-sync-section {
+  padding: 72px 0;
+  border-top: 1px solid var(--fm-border);
+}
+
+.fm-sync-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 48px;
+}
+
+@media (max-width: 900px) {
+  .fm-sync-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fm-watch-simulation-box {
+  background: radial-gradient(circle at 20% 40%, rgba(108, 99, 255, 0.12), transparent 70%), var(--fm-card);
+  border: 1px solid var(--fm-border);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.fm-simulation-stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.fm-sim-stat {
+  background: rgba(11, 13, 19, 0.6);
+  border: 1px solid var(--fm-border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.fm-sim-stat-label {
+  font-size: 0.75rem;
+  color: var(--fm-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.fm-sim-stat-val {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fm-sim-stat-val.heart {
+  color: var(--fm-rose);
+}
+
+.fm-sim-stat-val.calories {
+  color: var(--fm-amber);
+}
+
+/* ── Privacy Dual Cards ────────────────────────────────────── */
+.fm-privacy-section {
+  padding: 72px 0;
+  border-top: 1px solid var(--fm-border);
+}
+
+.fm-privacy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .fm-privacy-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fm-privacy-card {
+  background: var(--fm-card);
+  border: 1px solid var(--fm-border);
+  border-radius: 16px;
+  padding: 32px 28px;
+}
+
+.fm-privacy-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fm-privacy-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fm-privacy-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.92rem;
+  color: var(--fm-muted);
+  line-height: 1.5;
+}
+
+/* ── FAQ Accordion ─────────────────────────────────────────── */
+.fm-faq-section {
+  padding: 72px 0;
+  border-top: 1px solid var(--fm-border);
+}
+
+.fm-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 32px;
+  max-width: 800px;
+}
+
+.fm-faq-item {
+  background: var(--fm-card);
+  border: 1px solid var(--fm-border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.fm-faq-item[open] {
+  background: var(--fm-card-alt);
+  border-color: rgba(108, 99, 255, 0.4);
+}
+
+.fm-faq-summary {
+  padding: 20px 24px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+  user-select: none;
+}
+
+.fm-faq-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fm-faq-answer {
+  padding: 0 24px 20px;
+  color: var(--fm-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* ── Footer ────────────────────────────────────────────────── */
+.fm-footer {
+  border-top: 1px solid var(--fm-border);
+  padding: 48px 0;
+  background: #07080B;
+  text-align: center;
+  color: var(--fm-muted);
+  font-size: 0.88rem;
+}
+
+.fm-footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.fm-footer-links a {
+  color: var(--fm-muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.fm-footer-links a:hover {
+  color: #fff;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BMI CALCULATOR & DIET CHART
+   ═══════════════════════════════════════════════════════ */
+
+.fm-bmi-section {
+  padding: 80px 0;
+}
+
+.fm-section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(108, 99, 255, 0.1);
+  color: var(--fm-accent-light);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(108, 99, 255, 0.2);
+  margin-bottom: 16px;
+}
+
+.fm-section-heading {
+  font-family: var(--fm-font-display);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.fm-highlight {
+  background: linear-gradient(135deg, var(--fm-accent-light), #06B6D4);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.fm-section-lede {
+  font-size: 1rem;
+  color: var(--fm-muted);
+  line-height: 1.7;
+  margin-bottom: 36px;
+  max-width: 560px;
+}
+
+/* ── BMI Calculator Card ─────────────────────────────── */
+.fm-bmi-calculator {
+  max-width: 720px;
+}
+
+.fm-bmi-inputs {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.fm-bmi-field {
+  flex: 1;
+  min-width: 140px;
+}
+
+.fm-bmi-field label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--fm-muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fm-bmi-field input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--fm-border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  color: #fff;
+  font-family: inherit;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.fm-bmi-field input:focus {
+  border-color: var(--fm-accent-light);
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.fm-bmi-field input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.fm-bmi-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, var(--fm-accent), var(--fm-accent-light));
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+
+.fm-bmi-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(108, 99, 255, 0.3);
+}
+
+.fm-bmi-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── BMI Result Area ─────────────────────────────────── */
+.fm-bmi-result-area {
+  margin-top: 32px;
+  animation: fm-slideUp 0.4s ease-out;
+}
+
+@keyframes fm-slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── BMI Gauge Card ──────────────────────────────────── */
+.fm-bmi-gauge-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--fm-border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 28px;
+}
+
+.fm-bmi-gauge-wrapper {
+  flex: 1;
+}
+
+.fm-bmi-gauge-track {
+  position: relative;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: visible;
+}
+
+.fm-bmi-gauge-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.fm-bmi-gauge-fill.bmi-underweight {
+  background: linear-gradient(90deg, #3B82F6, #60A5FA);
+}
+
+.fm-bmi-gauge-fill.bmi-normal {
+  background: linear-gradient(90deg, #10B981, #34D399);
+}
+
+.fm-bmi-gauge-fill.bmi-overweight {
+  background: linear-gradient(90deg, #F59E0B, #FBBF24);
+}
+
+.fm-bmi-gauge-fill.bmi-obese {
+  background: linear-gradient(90deg, #EF4444, #F87171);
+}
+
+.fm-bmi-gauge-indicator {
+  position: absolute;
+  top: -4px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: left 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.fm-bmi-gauge-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 0.7rem;
+  color: var(--fm-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.fm-bmi-score {
+  text-align: center;
+  min-width: 100px;
+}
+
+.fm-bmi-value {
+  display: block;
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 6px;
+  font-family: var(--fm-font-display);
+}
+
+.fm-bmi-value.bmi-underweight { color: #60A5FA; }
+.fm-bmi-value.bmi-normal { color: #34D399; }
+.fm-bmi-value.bmi-overweight { color: #FBBF24; }
+.fm-bmi-value.bmi-obese { color: #F87171; }
+
+.fm-bmi-category {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 12px;
+  border-radius: 20px;
+}
+
+.fm-bmi-category.bmi-underweight {
+  background: rgba(96, 165, 250, 0.15);
+  color: #60A5FA;
+}
+
+.fm-bmi-category.bmi-normal {
+  background: rgba(52, 211, 153, 0.15);
+  color: #34D399;
+}
+
+.fm-bmi-category.bmi-overweight {
+  background: rgba(251, 191, 36, 0.15);
+  color: #FBBF24;
+}
+
+.fm-bmi-category.bmi-obese {
+  background: rgba(248, 113, 113, 0.15);
+  color: #F87171;
+}
+
+/* ── Diet Chart ──────────────────────────────────────── */
+.fm-diet-chart {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--fm-border);
+  border-radius: 16px;
+  padding: 28px 24px;
+}
+
+.fm-diet-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.fm-diet-title svg {
+  color: var(--fm-accent-light);
+  font-size: 1.2em;
+}
+
+.fm-diet-summary {
+  font-size: 0.9rem;
+  color: var(--fm-muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.fm-diet-meals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.fm-diet-meal-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--fm-border);
+  border-radius: 12px;
+  padding: 18px 16px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.fm-diet-meal-card:hover {
+  border-color: var(--fm-accent-light);
+  transform: translateY(-2px);
+}
+
+.fm-diet-meal-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.fm-diet-meal-desc {
+  font-size: 0.82rem;
+  color: var(--fm-muted);
+  line-height: 1.6;
+}
+
+/* ── Diet Tips ───────────────────────────────────────── */
+.fm-diet-tips {
+  background: rgba(108, 99, 255, 0.06);
+  border: 1px solid rgba(108, 99, 255, 0.15);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.fm-diet-tips h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.fm-diet-tips ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fm-diet-tips li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--fm-muted);
+}
+
+.fm-diet-check {
+  color: var(--fm-accent-light);
+  font-size: 0.9em;
+  flex-shrink: 0;
+}
+
+/* ── BMI Responsive ──────────────────────────────────── */
+@media (max-width: 640px) {
+  .fm-bmi-inputs {
+    flex-direction: column;
+  }
+
+  .fm-bmi-gauge-card {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .fm-diet-meals-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── ForMembers Light Theme Component Overrides ──────── */
+[data-theme="light"] .fm-header {
+  background: rgba(245, 246, 250, 0.9);
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .fm-brand {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-nav a {
+  color: #4B5563 !important;
+}
+
+[data-theme="light"] .fm-nav a:hover,
+[data-theme="light"] .fm-nav a.active {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-hero-glow {
+  opacity: 0.12;
+}
+
+[data-theme="light"] .fm-hero h1 {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-hero h1 .highlight {
+  background: linear-gradient(135deg, #111827 30%, var(--fm-accent) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+[data-theme="light"] .fm-hero-lede {
+  color: #374151 !important;
+}
+
+[data-theme="light"] .fm-highlight-item {
+  color: #1F2937 !important;
+}
+
+/* Phone Mockup Frame (Realistic smartphone casing on light page) */
+[data-theme="light"] .fm-phone {
+  background: #E5E7EB;
+  border-color: #D1D5DB;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* Phone screen stays dark OLED display with high contrast white text */
+[data-theme="light"] .fm-phone-screen {
+  background: #0B0D13 !important;
+}
+
+[data-theme="light"] .fm-phone-app {
+  background: #0B0D13 !important;
+}
+
+/* Feature Cards Grid */
+[data-theme="light"] .fm-section-title {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-feature-card {
+  background: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light"] .fm-feature-card:hover {
+  background: #F9FAFB !important;
+  border-color: rgba(0, 0, 0, 0.18) !important;
+}
+
+[data-theme="light"] .fm-feature-title {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-feature-desc {
+  color: #4B5563 !important;
+}
+
+/* Membership Tiers */
+[data-theme="light"] .fm-eyebrow {
+  color: var(--fm-accent) !important;
+}
+
+[data-theme="light"] .fm-tiers-section p {
+  color: #4B5563 !important;
+}
+
+[data-theme="light"] .fm-tier-card {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light"] .fm-tier-card.featured {
+  background: #FFFFFF !important;
+  border: 2px solid var(--fm-accent) !important;
+  box-shadow: 0 8px 32px rgba(108, 99, 255, 0.15) !important;
+}
+
+[data-theme="light"] .fm-tier-badge {
+  background: rgba(108, 99, 255, 0.12) !important;
+  border-color: var(--fm-accent) !important;
+  color: var(--fm-accent) !important;
+}
+
+[data-theme="light"] .fm-tier-name {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-tier-scope {
+  color: #4B5563 !important;
+}
+
+[data-theme="light"] .fm-tier-price {
+  color: #0891B2 !important;
+}
+
+[data-theme="light"] .fm-tier-card.featured .fm-tier-price {
+  color: var(--fm-accent) !important;
+}
+
+[data-theme="light"] .fm-tier-unlocks {
+  color: #1F2937 !important;
+}
+
+[data-theme="light"] .fm-tier-unlock-item {
+  color: #1F2937 !important;
+}
+
+[data-theme="light"] .fm-tier-unlock-item span {
+  color: #1F2937 !important;
+}
+
+[data-theme="light"] .fm-tier-check-icon {
+  color: #059669 !important;
+}
+
+/* Wearable Sync Section */
+[data-theme="light"] .fm-watch-simulation-box {
+  background: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .fm-watch-simulation-box [data-theme-text="title"],
+[data-theme="light"] .fm-sync-title {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-sim-stat {
+  background: #F8F9FA !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .fm-sim-stat-label {
+  color: #6B7280 !important;
+}
+
+[data-theme="light"] .fm-sim-stat-val {
+  color: #111827 !important;
+}
+
+/* Privacy Cards */
+[data-theme="light"] .fm-privacy-card {
+  background: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .fm-privacy-title {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-privacy-list li {
+  color: #374151 !important;
+}
+
+/* FAQ */
+[data-theme="light"] .fm-faq-item {
+  background: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .fm-faq-item[open] {
+  background: #F9FAFB !important;
+  border-color: rgba(108, 99, 255, 0.3) !important;
+}
+
+[data-theme="light"] .fm-faq-summary {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-faq-answer {
+  color: #4B5563 !important;
+}
+
+/* BMI Section */
+[data-theme="light"] .fm-section-heading {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-section-lede {
+  color: #4B5563 !important;
+}
+
+[data-theme="light"] .fm-bmi-field label {
+  color: #4B5563 !important;
+}
+
+[data-theme="light"] .fm-bmi-field input {
+  background: #FFFFFF !important;
+  color: #111827 !important;
+  border: 1.5px solid rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-theme="light"] .fm-bmi-field input::placeholder {
+  color: #9CA3AF !important;
+}
+
+[data-theme="light"] .fm-bmi-field input:focus {
+  border-color: var(--fm-accent-light) !important;
+  background: #FFFFFF !important;
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-bmi-gauge-card {
+  background: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light"] .fm-bmi-gauge-labels span {
+  color: #6B7280 !important;
+}
+
+/* Diet Plan */
+[data-theme="light"] .fm-diet-chart {
+  background: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light"] .fm-diet-title {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-diet-summary {
+  color: #4B5563 !important;
+}
+
+[data-theme="light"] .fm-diet-meal-card {
+  background: #F8F9FA !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .fm-diet-meal-card:hover {
+  border-color: var(--fm-accent-light) !important;
+}
+
+[data-theme="light"] .fm-diet-meal-name {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-diet-meal-desc {
+  color: #4B5563 !important;
+}
+
+[data-theme="light"] .fm-diet-tips {
+  background: rgba(108, 99, 255, 0.08) !important;
+  border-color: rgba(108, 99, 255, 0.2) !important;
+}
+
+[data-theme="light"] .fm-diet-tips h4 {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-diet-tips li {
+  color: #374151 !important;
+}
+
+/* Footer */
+[data-theme="light"] .fm-footer {
+  background: #F0F1F5 !important;
+  border-top-color: rgba(0, 0, 0, 0.1) !important;
+  color: #6B7280 !important;
+}
+
+[data-theme="light"] .fm-footer-links a {
+  color: #4B5563 !important;
+}
+
+[data-theme="light"] .fm-footer-links a:hover {
+  color: #111827 !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   LOADING SPINNER
+   ═══════════════════════════════════════════════════════ */
+
+.fm-loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(108, 99, 255, 0.2);
+  border-top-color: var(--fm-accent);
+  border-radius: 50%;
+  animation: fm-spin 0.8s linear infinite;
+}
+
+@keyframes fm-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   LOCKED STATE — NO MEMBERSHIP
+   ═══════════════════════════════════════════════════════ */
+
+.fm-locked-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+  padding: 80px 0;
+  overflow: hidden;
+}
+
+.fm-locked-glow {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(108, 99, 255, 0.15), transparent 70%);
+  filter: blur(100px);
+  pointer-events: none;
+}
+
+.fm-locked-content {
+  text-align: center;
+  max-width: 600px;
+  position: relative;
+  z-index: 1;
+}
+
+.fm-locked-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 24px;
+  background: rgba(108, 99, 255, 0.12);
+  border: 1px solid rgba(108, 99, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--fm-accent-light);
+  margin: 0 auto 28px;
+  box-shadow: 0 0 40px rgba(108, 99, 255, 0.15);
+}
+
+.fm-locked-title {
+  font-family: var(--fm-font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+}
+
+.fm-locked-title .highlight {
+  background: linear-gradient(135deg, var(--fm-accent-light), var(--fm-cyan));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.fm-locked-desc {
+  font-size: 1.05rem;
+  color: var(--fm-muted);
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+
+.fm-locked-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 36px;
+  text-align: left;
+}
+
+.fm-locked-feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--fm-border);
+  border-radius: 12px;
+  font-size: 0.88rem;
+  color: var(--fm-text);
+  font-weight: 600;
+}
+
+.fm-locked-feature svg {
+  color: var(--fm-accent-light);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.fm-locked-cta {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.fm-locked-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: inherit;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.fm-locked-btn.primary {
+  background: linear-gradient(135deg, var(--fm-accent), var(--fm-accent-light));
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(108, 99, 255, 0.25);
+}
+
+.fm-locked-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(108, 99, 255, 0.35);
+}
+
+.fm-locked-btn.ghost {
+  background: transparent;
+  border: 1px solid var(--fm-border-strong);
+  color: var(--fm-text);
+}
+
+.fm-locked-btn.ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--fm-accent);
+}
+
+/* ═══════════════════════════════════════════════════════
+   TRAINING PLAN SECTION
+   ═══════════════════════════════════════════════════════ */
+
+.fm-training-section {
+  padding: 80px 0;
+  border-top: 1px solid var(--fm-border);
+}
+
+.fm-day-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.fm-day-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.fm-day-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--fm-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  font-family: inherit;
+  color: var(--fm-muted);
+  min-width: 80px;
+}
+
+.fm-day-tab:hover {
+  background: rgba(108, 99, 255, 0.08);
+  border-color: rgba(108, 99, 255, 0.3);
+}
+
+.fm-day-tab.active {
+  background: rgba(108, 99, 255, 0.12);
+  border-color: var(--fm-accent);
+  color: #fff;
+  box-shadow: 0 0 16px rgba(108, 99, 255, 0.2);
+}
+
+.fm-day-tab-day {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.fm-day-tab-name {
+  font-size: 0.68rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.fm-workout-day-card {
+  background: var(--fm-card);
+  border: 1px solid var(--fm-border);
+  border-radius: 20px;
+  padding: 32px;
+  animation: fm-slideUp 0.35s ease-out;
+}
+
+.fm-workout-day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.fm-workout-day-header h3 {
+  font-family: var(--fm-font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+}
+
+.fm-workout-day-type {
+  font-size: 0.88rem;
+  color: var(--fm-accent-light);
+  font-weight: 600;
+}
+
+.fm-workout-day-pills {
+  display: flex;
+  gap: 8px;
+}
+
+.fm-exercises-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.fm-exercise-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 16px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--fm-border);
+  border-radius: 14px;
+  transition: all 0.2s ease;
+}
+
+.fm-exercise-card:hover {
+  background: rgba(108, 99, 255, 0.06);
+  border-color: rgba(108, 99, 255, 0.2);
+  transform: translateX(4px);
+}
+
+.fm-exercise-num {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(108, 99, 255, 0.12);
+  color: var(--fm-accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.fm-exercise-info h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 4px;
+}
+
+.fm-exercise-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 0.78rem;
+  color: var(--fm-muted);
+}
+
+.fm-rest-day-card {
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.fm-rest-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.fm-rest-day-card h4 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 8px;
+}
+
+.fm-rest-day-card p {
+  color: var(--fm-muted);
+  font-size: 0.92rem;
+}
+
+/* ═══════════════════════════════════════════════════════
+   DIET PLAN SECTION
+   ═══════════════════════════════════════════════════════ */
+
+.fm-diet-section {
+  padding: 80px 0;
+  border-top: 1px solid var(--fm-border);
+}
+
+.fm-macro-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+  max-width: 600px;
+}
+
+.fm-macro-card {
+  background: var(--fm-card);
+  border: 1px solid var(--fm-border);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.fm-macro-card:hover {
+  border-color: var(--fm-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.fm-macro-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fm-muted);
+  margin-bottom: 6px;
+}
+
+.fm-macro-value {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--fm-accent-light);
+  font-family: var(--fm-font-display);
+}
+
+/* ═══════════════════════════════════════════════════════
+   NEW SECTIONS — LIGHT THEME OVERRIDES
+   ═══════════════════════════════════════════════════════ */
+
+[data-theme="light"] .fm-locked-title {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-locked-desc {
+  color: #4B5563 !important;
+}
+
+[data-theme="light"] .fm-locked-feature {
+  background: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  color: #1F2937 !important;
+}
+
+[data-theme="light"] .fm-locked-icon {
+  background: rgba(108, 99, 255, 0.08) !important;
+  border-color: rgba(108, 99, 255, 0.2) !important;
+}
+
+[data-theme="light"] .fm-locked-btn.ghost {
+  background: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-day-tab {
+  background: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  color: #6B7280 !important;
+}
+
+[data-theme="light"] .fm-day-tab.active {
+  background: rgba(108, 99, 255, 0.08) !important;
+  border-color: var(--fm-accent) !important;
+  color: var(--fm-accent) !important;
+}
+
+[data-theme="light"] .fm-workout-day-card {
+  background: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light"] .fm-workout-day-header h3 {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-exercise-card {
+  background: #F8F9FA !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .fm-exercise-info h4 {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-rest-day-card h4 {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .fm-macro-card {
+  background: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+@media (max-width: 768px) {
+  .fm-locked-features {
+    grid-template-columns: 1fr;
+  }
+
+  .fm-macro-row {
+    grid-template-columns: 1fr;
+  }
+
+  .fm-exercises-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fm-workout-day-card {
+    padding: 20px;
+  }
+}

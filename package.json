@@ -1,0 +1,16 @@
+{
+  "name": "gym-membership",
+  "version": "1.0.0",
+  "description": "this is GYM membership project ",
+  "keywords": [
+    "GYM",
+    "Membership"
+  ],
+  "license": "ISC",
+  "author": "Eshaan OM",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

@@ -1,0 +1,1182 @@
+/* ═══════════════════════════════════════════════════════════════
+   REGISTER PAGE STYLES — FitTrack Dynamic Centered Auth
+   Luxury athletic dark theme with glassmorphism, ambient glows,
+   interactive steps, and dynamic micro-animations.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Main Full-Screen Centered Wrapper ─────────────────────── */
+.register-page-wrapper {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  padding: 32px 16px;
+  z-index: 1;
+}
+
+/* ── Atmospheric Background Layer ──────────────────────────── */
+.register-bg-layer {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(108, 99, 255, 0.18) 0%, transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(11, 13, 19, 0.88) 0%, rgba(11, 13, 19, 0.96) 100%),
+    url('/images/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -2;
+  filter: saturate(1.1);
+}
+
+/* Animated ambient light orbs */
+.register-ambient-orb {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(90px);
+  opacity: 0.55;
+  z-index: -1;
+  animation: orbFloat 14s ease-in-out infinite alternate;
+}
+
+.register-orb-1 {
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(108, 99, 255, 0.35), transparent 70%);
+  top: -80px;
+  left: -80px;
+}
+
+.register-orb-2 {
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.28), transparent 70%);
+  bottom: -60px;
+  right: -60px;
+  animation-delay: -7s;
+}
+
+@keyframes orbFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, 40px) scale(1.08); }
+  100% { transform: translate(-20px, 20px) scale(0.96); }
+}
+
+/* ── Top Header Navigation Bar ─────────────────────────────── */
+.register-topbar {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  z-index: 2;
+}
+
+.register-brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: transform var(--transition-fast);
+}
+
+.register-brand-link:hover {
+  transform: translateY(-1px);
+}
+
+.register-brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: #fff;
+  box-shadow: 0 4px 14px var(--primary-glow);
+}
+
+.register-brand-name {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #ffffff 40%, var(--primary-light) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.register-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-default);
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+  transition: all var(--transition-fast);
+}
+
+.register-back-link:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--border-hover);
+  transform: translateX(-2px);
+}
+
+/* ── Centered Main Card Container ──────────────────────────── */
+.register-card {
+  width: 100%;
+  max-width: 580px;
+  background: rgba(17, 20, 34, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 36px 36px;
+  box-shadow: 
+    0 24px 60px rgba(0, 0, 0, 0.55),
+    0 0 40px rgba(108, 99, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  position: relative;
+  z-index: 2;
+  transition: all var(--transition-base);
+}
+
+@media (max-width: 640px) {
+  .register-card {
+    padding: 26px 20px;
+    border-radius: 20px;
+  }
+}
+
+/* ── Card Header ───────────────────────────────────────────── */
+.register-card-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.register-tag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  background: rgba(108, 99, 255, 0.15);
+  border: 1px solid rgba(108, 99, 255, 0.3);
+  color: var(--primary-light);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+
+.register-card-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.register-card-subtitle {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  max-width: 440px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* ── Dynamic Steps Progress Indicator ──────────────────────── */
+.register-steps-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  padding: 12px 18px;
+  background: rgba(11, 13, 19, 0.6);
+  border: 1px solid var(--border-default);
+  border-radius: 16px;
+}
+
+.register-step-node {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: default;
+}
+
+.register-step-bubble {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  background: var(--bg-hover);
+  color: var(--text-muted);
+  border: 2px solid var(--border-default);
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.register-step-node.active .register-step-bubble {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  border-color: var(--primary-light);
+  box-shadow: 0 0 16px var(--primary-glow);
+}
+
+.register-step-node.completed .register-step-bubble {
+  background: var(--accent-emerald);
+  color: #fff;
+  border-color: var(--accent-emerald);
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.35);
+}
+
+.register-step-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-step-name {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: color var(--transition-base);
+}
+
+.register-step-node.active .register-step-name {
+  color: var(--text-primary);
+}
+
+.register-step-node.completed .register-step-name {
+  color: var(--accent-emerald);
+}
+
+.register-step-desc {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.register-steps-line {
+  flex: 1;
+  height: 2px;
+  background: var(--border-default);
+  margin: 0 16px;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+}
+
+.register-steps-line-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary), var(--accent-emerald));
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.register-steps-line-fill.completed {
+  width: 100%;
+}
+
+/* ── Interactive Role Switcher ─────────────────────────────── */
+.register-role-section {
+  margin-bottom: 22px;
+}
+
+.register-section-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.register-role-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.register-role-card {
+  position: relative;
+  background: rgba(22, 25, 48, 0.55);
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 14px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.register-role-card:hover {
+  border-color: var(--border-hover);
+  background: rgba(26, 29, 46, 0.8);
+  transform: translateY(-2px);
+}
+
+.register-role-card.selected {
+  background: rgba(108, 99, 255, 0.12);
+  border-color: var(--primary);
+  box-shadow: 0 0 20px rgba(108, 99, 255, 0.2);
+}
+
+.register-role-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  background: var(--bg-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.register-role-card.selected .register-role-icon {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+.register-role-details {
+  flex: 1;
+}
+
+.register-role-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.register-role-desc {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.register-role-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+}
+
+.register-role-badge.member {
+  background: rgba(6, 182, 212, 0.15);
+  color: var(--accent-cyan-light);
+}
+
+.register-role-badge.admin {
+  background: rgba(244, 63, 94, 0.15);
+  color: var(--accent-rose-light);
+}
+
+/* ── Modern Form Fields with Left Icons ────────────────────── */
+.register-input-group,
+.register-field-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.register-input-label,
+.register-field-label {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.register-input-label .required-dot,
+.register-field-label .required-dot {
+  color: var(--accent-rose);
+  margin-left: 2px;
+}
+
+.register-input-wrapper,
+.register-password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.register-field-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+  font-size: 1.15rem;
+  pointer-events: none;
+  transition: color var(--transition-fast);
+}
+
+.register-input-wrapper:focus-within .register-field-icon {
+  color: var(--primary-light);
+}
+
+.register-input,
+.register-field-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(22, 25, 48, 0.6);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.register-input {
+  padding-left: 42px;
+}
+
+.register-password-wrapper .register-field-input {
+  padding-right: 44px;
+}
+
+.register-input::placeholder,
+.register-field-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+.register-input:focus,
+.register-field-input:focus {
+  border-color: var(--primary);
+  background: rgba(26, 29, 56, 0.8);
+  box-shadow: 0 0 0 3px var(--primary-glow), 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.register-input.has-error,
+.register-field-input.register-field-error {
+  border-color: var(--accent-rose) !important;
+  background: rgba(244, 63, 94, 0.05);
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.18) !important;
+}
+
+.register-input.has-error + .register-field-icon {
+  color: var(--accent-rose);
+}
+
+.register-error-msg,
+.register-error-text {
+  font-size: 0.77rem;
+  color: var(--accent-rose);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+/* Password Toggle */
+.register-pwd-toggle,
+.register-password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1.15rem;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.register-pwd-toggle:hover,
+.register-password-toggle:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ── Live Password Strength Meter ──────────────────────────── */
+.register-pwd-meter {
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: rgba(11, 13, 19, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+}
+
+.register-pwd-meter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.register-pwd-meter-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.register-pwd-meter-val {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.strength-weak { color: var(--accent-rose); }
+.strength-fair { color: var(--accent-amber); }
+.strength-good { color: var(--accent-cyan); }
+.strength-strong { color: var(--accent-emerald); }
+
+.register-pwd-bars {
+  display: flex;
+  gap: 5px;
+  height: 4px;
+  margin-bottom: 8px;
+}
+
+.register-pwd-segment {
+  flex: 1;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  transition: background 0.3s ease;
+}
+
+.register-pwd-segment.active-weak { background: var(--accent-rose); }
+.register-pwd-segment.active-fair { background: var(--accent-amber); }
+.register-pwd-segment.active-good { background: var(--accent-cyan); }
+.register-pwd-segment.active-strong { background: var(--accent-emerald); }
+
+.register-pwd-rules {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.register-rule-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  transition: color var(--transition-fast);
+}
+
+.register-rule-item.valid {
+  color: var(--accent-emerald);
+}
+
+.register-rule-icon {
+  font-size: 0.85rem;
+}
+
+/* ── 2-Column Responsive Form Row ──────────────────────────── */
+.register-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 520px) {
+  .register-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Interactive Gender Chips ──────────────────────────────── */
+.register-gender-chips {
+  display: flex;
+  gap: 8px;
+}
+
+.register-gender-chip {
+  flex: 1;
+  padding: 10px 8px;
+  background: rgba(22, 25, 48, 0.6);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.register-gender-chip:hover {
+  background: rgba(26, 29, 46, 0.8);
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+}
+
+.register-gender-chip.selected {
+  background: rgba(108, 99, 255, 0.16);
+  border-color: var(--primary);
+  color: var(--primary-light);
+  box-shadow: 0 0 14px var(--primary-glow);
+}
+
+/* ── Account Created Profile Banner (Step 2) ───────────────── */
+.register-account-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+}
+
+.register-account-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.register-account-check-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-emerald);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+}
+
+.register-account-info-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.register-account-info-sub {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.register-account-role-pill {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background: var(--primary-glow);
+  color: var(--primary-light);
+}
+
+/* ── Action Buttons ────────────────────────────────────────── */
+.register-actions-group {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.register-btn-submit {
+  width: 100%;
+  padding: 13px 20px;
+  background: linear-gradient(135deg, var(--primary) 0%, #06B6D4 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px var(--primary-glow);
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+.register-btn-submit::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.75s ease;
+}
+
+.register-btn-submit:hover:not(:disabled)::after {
+  left: 150%;
+}
+
+.register-btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 26px rgba(108, 99, 255, 0.4), 0 0 16px rgba(6, 182, 212, 0.3);
+}
+
+.register-btn-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.register-btn-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ── Secondary Skip / Back Button ──────────────────────────── */
+.register-secondary-btns {
+  display: flex;
+  gap: 12px;
+}
+
+.register-btn-secondary {
+  flex: 1;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.register-btn-secondary:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+}
+
+/* ── Card Footer Links ─────────────────────────────────────── */
+.register-card-footer {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-default);
+  text-align: center;
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+}
+
+.register-card-footer a {
+  color: var(--primary-light);
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.register-card-footer a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.register-security-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  margin-top: 12px;
+}
+
+/* ── Step 3: Success Screen ────────────────────────────────── */
+.register-success-view {
+  text-align: center;
+  padding: 16px 8px;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.register-success-badge-wrapper {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-success-pulse-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.2);
+  animation: successPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.register-success-icon-box {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-emerald), #059669);
+  color: #fff;
+  font-size: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+}
+
+@keyframes successPulse {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  70% { transform: scale(1.4); opacity: 0; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.register-success-summary-card {
+  background: rgba(11, 13, 19, 0.6);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin: 24px 0;
+  text-align: left;
+}
+
+.register-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.85rem;
+}
+
+.register-summary-row:last-child {
+  border-bottom: none;
+}
+
+.register-summary-label {
+  color: var(--text-muted);
+}
+
+.register-summary-val {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.register-success-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+@media (max-width: 520px) {
+  .register-success-actions {
+    flex-direction: column;
+  }
+}
+
+/* ── Register/Login Light Theme Overrides ────────────── */
+[data-theme="light"] .register-page-wrapper {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .register-bg-layer {
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(108, 99, 255, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.05) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(245, 246, 250, 0.94) 0%, rgba(245, 246, 250, 0.98) 100%);
+}
+
+[data-theme="light"] .register-ambient-orb {
+  opacity: 0.15;
+}
+
+[data-theme="light"] .register-brand-name {
+  background: linear-gradient(135deg, #111827 30%, var(--primary) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+[data-theme="light"] .register-back-link {
+  background: #FFFFFF !important;
+  color: #374151 !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+[data-theme="light"] .register-back-link:hover {
+  background: #F3F4F6 !important;
+  color: #111827 !important;
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="light"] .register-card {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  color: #111827 !important;
+}
+
+[data-theme="light"] .register-card-title {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .register-card-subtitle {
+  color: #4B5563 !important;
+}
+
+[data-theme="light"] .register-tag-badge {
+  background: rgba(108, 99, 255, 0.1) !important;
+  border-color: rgba(108, 99, 255, 0.25) !important;
+  color: var(--primary) !important;
+}
+
+/* Role Selector Cards */
+[data-theme="light"] .register-section-label {
+  color: #374151 !important;
+}
+
+[data-theme="light"] .register-role-card {
+  background: #F8F9FA !important;
+  border: 1.5px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .register-role-card:hover {
+  background: #F0F2F5 !important;
+  border-color: rgba(0, 0, 0, 0.18) !important;
+}
+
+[data-theme="light"] .register-role-card.selected {
+  background: #EEF2FF !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 1px var(--primary), 0 4px 14px var(--primary-glow) !important;
+}
+
+[data-theme="light"] .register-role-title {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .register-role-desc {
+  color: #4B5563 !important;
+}
+
+[data-theme="light"] .register-role-icon {
+  background: #E5E7EB !important;
+  color: #4B5563 !important;
+}
+
+[data-theme="light"] .register-role-card.selected .register-role-icon {
+  background: var(--primary) !important;
+  color: #FFFFFF !important;
+}
+
+/* Form Inputs & Labels */
+[data-theme="light"] .register-input-label,
+[data-theme="light"] .register-field-label {
+  color: #1F2937 !important;
+}
+
+[data-theme="light"] .register-input,
+[data-theme="light"] .register-field-input {
+  background: #FFFFFF !important;
+  color: #111827 !important;
+  border: 1.5px solid rgba(0, 0, 0, 0.14) !important;
+}
+
+[data-theme="light"] .register-input::placeholder,
+[data-theme="light"] .register-field-input::placeholder {
+  color: #9CA3AF !important;
+  opacity: 1 !important;
+}
+
+[data-theme="light"] .register-input:focus,
+[data-theme="light"] .register-field-input:focus {
+  background: #FFFFFF !important;
+  color: #111827 !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px var(--primary-glow) !important;
+}
+
+[data-theme="light"] .register-field-icon {
+  color: #6B7280 !important;
+}
+
+[data-theme="light"] .register-input-wrapper:focus-within .register-field-icon {
+  color: var(--primary) !important;
+}
+
+[data-theme="light"] .register-pwd-toggle,
+[data-theme="light"] .register-password-toggle {
+  color: #6B7280 !important;
+}
+
+[data-theme="light"] .register-pwd-toggle:hover,
+[data-theme="light"] .register-password-toggle:hover {
+  color: #111827 !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Steps Track */
+[data-theme="light"] .register-steps-track {
+  background: #F3F4F6 !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .register-step-bubble {
+  background: #E5E7EB !important;
+  color: #6B7280 !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+[data-theme="light"] .register-step-name {
+  color: #4B5563 !important;
+}
+
+[data-theme="light"] .register-step-node.active .register-step-name {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .register-step-desc {
+  color: #6B7280 !important;
+}
+
+/* Gender Chips */
+[data-theme="light"] .register-gender-chip {
+  background: #F3F4F6 !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  color: #374151 !important;
+}
+
+[data-theme="light"] .register-gender-chip:hover {
+  background: #E5E7EB !important;
+  color: #111827 !important;
+}
+
+[data-theme="light"] .register-gender-chip.selected {
+  background: #EEF2FF !important;
+  color: var(--primary-dark) !important;
+  border-color: var(--primary) !important;
+}
+
+/* Password Meter */
+[data-theme="light"] .register-pwd-meter {
+  background: #F3F4F6 !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .register-pwd-meter-label {
+  color: #6B7280 !important;
+}
+
+[data-theme="light"] .register-pwd-segment {
+  background: rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .register-rule-item {
+  color: #4B5563 !important;
+}
+
+[data-theme="light"] .register-rule-item.valid {
+  color: var(--accent-emerald) !important;
+}
+
+/* Secondary Button */
+[data-theme="light"] .register-btn-secondary {
+  background: #F3F4F6 !important;
+  color: #111827 !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+[data-theme="light"] .register-btn-secondary:hover {
+  background: #E5E7EB !important;
+  color: #111827 !important;
+}
+
+/* Footer & Extras */
+[data-theme="light"] .register-card-footer {
+  color: #4B5563 !important;
+  border-top-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .register-card-footer p {
+  color: #4B5563 !important;
+}
+
+[data-theme="light"] .register-card-footer a {
+  color: var(--primary) !important;
+}
+
+[data-theme="light"] .register-card-footer a:hover {
+  color: var(--primary-dark) !important;
+  text-decoration: underline !important;
+}
+
+[data-theme="light"] .register-security-badge {
+  color: #6B7280 !important;
+}
+
+[data-theme="light"] .register-success-summary-card {
+  background: #F8F9FA !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .register-summary-label {
+  color: #6B7280 !important;
+}
+
+[data-theme="light"] .register-summary-val {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .register-summary-row {
+  border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+}
