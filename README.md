@@ -150,3 +150,5 @@ Registration is a two-step process:
 ### Frontend
 - React 19, Vite, React Router
 - Axios, React Hot Toast, React Icons
+
+# gym_membership_demo
