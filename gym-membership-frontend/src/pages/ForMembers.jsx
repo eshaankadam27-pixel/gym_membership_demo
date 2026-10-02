@@ -16,7 +16,9 @@ import {
 } from "react-icons/hi2";
 import { useAuth } from "../context/AuthContext";
 import { getMyMembership } from "../services/membershipService";
+import { getActiveDiscounts } from "../services/discountService";
 import ThemeToggle from "../components/ui/ThemeToggle";
+import CheckoutModal from "../components/membership/CheckoutModal";
 import "../styles/for-members.css";
 
 /* ═══════════════════════════════════════════════════════
@@ -520,6 +522,45 @@ const ForMembers = () => {
   // ── Membership state ─────────────────────────────
   const [membership, setMembership] = useState(null);
   const [membershipLoading, setMembershipLoading] = useState(true);
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
+  const [selectedPlanName, setSelectedPlanName] = useState("Quarterly");
+  const [planDiscountMap, setPlanDiscountMap] = useState({});
+
+  // ── Fetch active discounts on mount ───────────────────
+  useEffect(() => {
+    getActiveDiscounts()
+      .then((res) => {
+        const data = res.data?.data;
+        if (data?.planDiscountMap) {
+          setPlanDiscountMap(data.planDiscountMap);
+        }
+      })
+      .catch((err) => {
+        console.warn("Could not load active discounts in ForMembers:", err);
+      });
+  }, []);
+
+  // ── Fetch membership on mount ──────────────────────
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      getMyMembership()
+        .then((res) => {
+          const data = res.data?.data;
+          if (data && data.planName) {
+            setMembership(data);
+          } else {
+            setMembership(null);
+          }
+        })
+        .catch(() => {
+          setMembership(null);
+        })
+        .finally(() => setMembershipLoading(false));
+    } else if (!authLoading) {
+      setMembership(null);
+      setMembershipLoading(false);
+    }
+  }, [isAuthenticated, authLoading]);
 
   // ── Dynamic Member Name Resolution ───────────────────
   const memberInfo = useMemo(() => {
@@ -547,21 +588,6 @@ const ForMembers = () => {
 
     return { name: cleanName, username, email, role };
   }, [searchParams, location]);
-
-  // ── Fetch membership on mount ──────────────────────
-  useEffect(() => {
-    if (!authLoading && isAuthenticated) {
-      getMyMembership()
-        .then((res) => {
-          const data = res.data?.data ?? res.data;
-          if (data) setMembership(data);
-        })
-        .catch(() => {})
-        .finally(() => setMembershipLoading(false));
-    } else if (!authLoading) {
-      setMembershipLoading(false);
-    }
-  }, [isAuthenticated, authLoading]);
 
   // ── Interactive Phone State ──────────────────────────
   const [phoneTab, setPhoneTab] = useState("today");
@@ -703,9 +729,73 @@ const ForMembers = () => {
                 <span>BMI & Progress Analytics</span>
               </div>
             </div>
-            <div className="fm-locked-cta">
+            {/* Membership Plans Grid */}
+            <div className="fm-locked-plans-wrap">
+              <h3 className="fm-locked-plans-title">Choose a Membership Plan</h3>
+              <p className="fm-locked-plans-sub">
+                Select your plan below, complete simulated payment, and unlock your member portal instantly.
+              </p>
+
+              <div className="fm-locked-plans-grid">
+                {[
+                  { name: "Monthly", price: 1500, per: "/ month", desc: "Full gym & class access" },
+                  { name: "Quarterly", price: 4000, per: "/ 3 months", desc: "Trainer-led workouts & diet", featured: true, badge: "Most Popular" },
+                  { name: "Half Yearly", price: 7500, per: "/ 6 months", desc: "Advanced tracking & perks", badge: "Save 20%" },
+                  { name: "Annual", price: 14000, per: "/ year", desc: "All-inclusive VIP access", badge: "Best Value" },
+                ].map((plan) => {
+                  const discount = planDiscountMap[plan.name];
+                  const hasDiscount = Boolean(discount);
+                  const origPrice = plan.price;
+                  const discountPct = discount?.discountPercentage || 0;
+                  const finalPrice = discount?.discountedPrice ?? (origPrice - Math.round((origPrice * discountPct) / 100));
+
+                  return (
+                    <div key={plan.name} className={`fm-locked-plan-card ${plan.featured ? "featured" : ""}`}>
+                      {hasDiscount ? (
+                        <span className="fm-locked-badge discount">🔥 {discountPct}% OFF</span>
+                      ) : plan.badge ? (
+                        <span className="fm-locked-badge">{plan.badge}</span>
+                      ) : null}
+
+                      <div>
+                        <h4 className="fm-locked-plan-name">{plan.name}</h4>
+                        <p className="fm-locked-plan-desc">{plan.desc}</p>
+                      </div>
+
+                      <div className="fm-locked-price-wrap">
+                        {hasDiscount && (
+                          <span className="fm-locked-old-price">₹{origPrice.toLocaleString("en-IN")}</span>
+                        )}
+                        <p className="fm-locked-price">
+                          ₹{finalPrice.toLocaleString("en-IN")}
+                          <small>{plan.per}</small>
+                        </p>
+                      </div>
+
+                      <button
+                        type="button"
+                        className="fm-locked-buy-btn"
+                        onClick={() => {
+                          if (!isAuthenticated) {
+                            navigate("/login");
+                            return;
+                          }
+                          setSelectedPlanName(plan.name);
+                          setShowCheckoutModal(true);
+                        }}
+                      >
+                        <span>{hasDiscount ? `Buy (${discountPct}% OFF)` : "Buy Membership Plan"}</span>
+                        <HiOutlineArrowRight />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="fm-locked-cta" style={{ marginTop: 28 }}>
               <Link to={isAuthenticated ? "/#plans" : "/login"} className="fm-locked-btn primary">
-                {isAuthenticated ? "Browse Plans" : "Sign In & Get Started"}
+                {isAuthenticated ? "Browse Plans on Home" : "Sign In & Get Started"}
                 <HiOutlineArrowRight />
               </Link>
               {!isAuthenticated && (
@@ -716,6 +806,17 @@ const ForMembers = () => {
             </div>
           </div>
         </section>
+
+        {/* ── CHECKOUT & PAYMENT MODAL ────────────────── */}
+        <CheckoutModal
+          isOpen={showCheckoutModal}
+          onClose={() => setShowCheckoutModal(false)}
+          planName={selectedPlanName}
+          discount={planDiscountMap[selectedPlanName]}
+          onSuccess={(enrolled) => {
+            setMembership(enrolled);
+          }}
+        />
 
         <footer className="fm-footer">
           <div className="fm-container">

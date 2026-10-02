@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { IoFitnessOutline } from "react-icons/io5";
 import {
   HiOutlineChartBar,
@@ -18,10 +18,11 @@ import {
 } from "react-icons/hi2";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
-import { enrollInPlan, getMyMembership } from "../services/membershipService";
+import { getMyMembership } from "../services/membershipService";
 import { getActiveDiscounts } from "../services/discountService";
 import { getErrorMessage } from "../utils/formatters";
 import ThemeToggle from "../components/ui/ThemeToggle";
+import CheckoutModal from "../components/membership/CheckoutModal";
 import "../styles/landing.css";
 
 /* ── Reusable animated counter ─────────────────────────── */
@@ -128,80 +129,36 @@ const LandingPage = () => {
   const revealFaq = useReveal();
 
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const { isAuthenticated, loading: authLoading, user, logout } = useAuth();
 
-  const [enrolling, setEnrolling] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [enrolledPlan, setEnrolledPlan] = useState(null);
   const [activeMembership, setActiveMembership] = useState(null);
   const [planDiscountMap, setPlanDiscountMap] = useState({});
   const autoEnrollAttempted = useRef(false);
 
-  // ── Fitness Questionnaire Modal State ──────────────
-  const [showQuestionnaire, setShowQuestionnaire] = useState(false);
-  const [selectedPlanName, setSelectedPlanName] = useState(null);
-  const [questionStep, setQuestionStep] = useState(0);
-  const [fitnessAnswers, setFitnessAnswers] = useState({
-    fitnessGoal: "",
-    fitnessLevel: "",
-    bodyFocus: "",
-    dietPreference: "",
-  });
+  // ── Checkout Modal State ──────────────
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
+  const [selectedPlanName, setSelectedPlanName] = useState("Quarterly");
 
-  const questionnaireSteps = [
-    {
-      key: "fitnessGoal",
-      question: "What's your primary fitness goal?",
-      icon: "🎯",
-      options: [
-        { value: "weight_loss", label: "Weight Loss", emoji: "🔥", desc: "Shed fat and get lean" },
-        { value: "muscle_gain", label: "Muscle Gain", emoji: "💪", desc: "Build size and mass" },
-        { value: "strength_training", label: "Strength Training", emoji: "🏋️", desc: "Get stronger overall" },
-        { value: "general_fitness", label: "General Fitness", emoji: "🏃", desc: "Stay fit and healthy" },
-        { value: "endurance", label: "Endurance", emoji: "⚡", desc: "Build stamina and cardio" },
-      ],
-    },
-    {
-      key: "fitnessLevel",
-      question: "What's your current fitness level?",
-      icon: "📊",
-      options: [
-        { value: "beginner", label: "Beginner", emoji: "🌱", desc: "New to working out" },
-        { value: "intermediate", label: "Intermediate", emoji: "🌿", desc: "Some experience" },
-        { value: "advanced", label: "Advanced", emoji: "🌳", desc: "Seasoned athlete" },
-      ],
-    },
-    {
-      key: "bodyFocus",
-      question: "Which area do you want to focus on?",
-      icon: "🎯",
-      options: [
-        { value: "full_body", label: "Full Body", emoji: "🧍", desc: "Balanced all-round training" },
-        { value: "upper_body", label: "Upper Body", emoji: "💪", desc: "Chest, shoulders, arms, back" },
-        { value: "lower_body", label: "Lower Body", emoji: "🦵", desc: "Legs, glutes, calves" },
-        { value: "core", label: "Core & Abs", emoji: "🧘", desc: "Abs, obliques, stability" },
-        { value: "cardio", label: "Cardio Focus", emoji: "❤️", desc: "Heart health and fat burn" },
-      ],
-    },
-    {
-      key: "dietPreference",
-      question: "What's your diet preference?",
-      icon: "🍽️",
-      options: [
-        { value: "vegetarian", label: "Vegetarian", emoji: "🥗", desc: "No meat or fish" },
-        { value: "non_vegetarian", label: "Non-Vegetarian", emoji: "🍗", desc: "Includes all foods" },
-        { value: "vegan", label: "Vegan", emoji: "🌱", desc: "No animal products" },
-        { value: "eggetarian", label: "Eggetarian", emoji: "🥚", desc: "Vegetarian + eggs" },
-      ],
-    },
-  ];
+  // ── Smooth scroll to hash anchor on mount/change ─────
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      const el = document.getElementById(id);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: "smooth" });
+        }, 150);
+      }
+    }
+  }, [location.hash]);
 
   // ── Fetch active discounts on mount ───────────────────
   useEffect(() => {
     getActiveDiscounts()
       .then((res) => {
-        const data = res.data?.data ?? res.data;
+        const data = res.data?.data;
         if (data?.planDiscountMap) {
           setPlanDiscountMap(data.planDiscountMap);
         }
@@ -217,14 +174,22 @@ const LandingPage = () => {
     if (isAuthenticated && token && !authLoading) {
       getMyMembership()
         .then((res) => {
-          const membership = res.data?.data ?? res.data;
-          if (membership) setActiveMembership(membership);
+          const membership = res.data?.data;
+          if (membership && membership.planName) {
+            setActiveMembership(membership);
+          } else {
+            setActiveMembership(null);
+          }
         })
-        .catch(() => {});
+        .catch(() => {
+          setActiveMembership(null);
+        });
+    } else {
+      setActiveMembership(null);
     }
   }, [isAuthenticated, authLoading]);
 
-  // ── Auto-enroll from URL param or session (after login redirect) ──
+  // ── Auto-open checkout from URL param or session (after login redirect) ──
   useEffect(() => {
     const pendingPlan = searchParams.get("plan") || sessionStorage.getItem("fittrack_pending_plan");
     const token = localStorage.getItem("fittrack_token");
@@ -240,33 +205,19 @@ const LandingPage = () => {
       !activeMembership
     ) {
       autoEnrollAttempted.current = true;
-      let preserved = null;
-      try {
-        const raw = sessionStorage.getItem("fittrack_pending_answers");
-        if (raw) preserved = JSON.parse(raw);
-      } catch {}
-
+      sessionStorage.removeItem("fittrack_pending_plan");
+      sessionStorage.removeItem("fittrack_pending_answers");
       setSelectedPlanName(pendingPlan);
-
-      if (preserved && preserved.fitnessGoal && preserved.dietPreference) {
-        sessionStorage.removeItem("fittrack_pending_plan");
-        sessionStorage.removeItem("fittrack_pending_answers");
-        setFitnessAnswers(preserved);
-        handleEnroll(pendingPlan, preserved);
-      } else {
-        setQuestionStep(0);
-        setFitnessAnswers({ fitnessGoal: "", fitnessLevel: "", bodyFocus: "", dietPreference: "" });
-        setShowQuestionnaire(true);
-      }
+      setShowCheckoutModal(true);
 
       if (searchParams.get("plan")) {
         searchParams.delete("plan");
         setSearchParams(searchParams, { replace: true });
       }
     }
-  }, [isAuthenticated, authLoading, searchParams, activeMembership]);
+  }, [isAuthenticated, authLoading, searchParams, activeMembership, setSearchParams]);
 
-  // ── Enrollment handler ─────────────────────────────
+  // ── Buy / Choose Plan handler ───────────────────────
   const handleChoosePlan = useCallback(
     (planName) => {
       const token = localStorage.getItem("fittrack_token");
@@ -275,90 +226,26 @@ const LandingPage = () => {
       if (!isAuthenticated || !hasValidToken) {
         // Save plan context for seamless resumption after login
         sessionStorage.setItem("fittrack_pending_plan", planName);
-        toast("Please sign in or create an account to choose your plan.", { icon: "🔒" });
+        toast("Please sign in or create an account to buy your membership plan.", { icon: "🔒" });
         navigate(`/login?plan=${encodeURIComponent(planName)}`);
         return;
       }
 
-      if (activeMembership) {
-        toast.error("You already have an active membership!");
+      if (activeMembership && activeMembership.planName) {
+        toast(`You already have an active ${activeMembership.planName} membership!`, { icon: "ℹ️" });
         return;
       }
 
-      // Open the fitness questionnaire
       setSelectedPlanName(planName);
-      setQuestionStep(0);
-      setFitnessAnswers({ fitnessGoal: "", fitnessLevel: "", bodyFocus: "", dietPreference: "" });
-      setShowQuestionnaire(true);
+      setShowCheckoutModal(true);
     },
     [isAuthenticated, activeMembership, navigate]
   );
 
-  const handleQuestionSelect = (key, value) => {
-    setFitnessAnswers((prev) => ({ ...prev, [key]: value }));
-    // Auto-advance to next step after a short delay
-    setTimeout(() => {
-      if (questionStep < questionnaireSteps.length - 1) {
-        setQuestionStep((s) => s + 1);
-      }
-    }, 350);
-  };
-
-  const handleQuestionnaireSubmit = () => {
-    const token = localStorage.getItem("fittrack_token");
-    const hasValidToken = token && token !== "null" && token !== "undefined" && token.trim() !== "";
-
-    if (!hasValidToken) {
-      sessionStorage.setItem("fittrack_pending_plan", selectedPlanName);
-      sessionStorage.setItem("fittrack_pending_answers", JSON.stringify(fitnessAnswers));
-      toast.error("Session expired or token missing. Please sign in to complete enrollment.");
-      setShowQuestionnaire(false);
-      navigate(`/login?plan=${encodeURIComponent(selectedPlanName)}`);
-      return;
-    }
-
-    setShowQuestionnaire(false);
-    handleEnroll(selectedPlanName, fitnessAnswers);
-  };
-
-  const handleEnroll = async (planName, fitnessData = {}) => {
-    const token = localStorage.getItem("fittrack_token");
-    const hasValidToken = token && token !== "null" && token !== "undefined" && token.trim() !== "";
-
-    if (!hasValidToken) {
-      sessionStorage.setItem("fittrack_pending_plan", planName);
-      sessionStorage.setItem("fittrack_pending_answers", JSON.stringify(fitnessData));
-      toast.error("Authentication required. Please sign in to enroll.");
-      navigate(`/login?plan=${encodeURIComponent(planName)}`);
-      return;
-    }
-
-    setEnrolling(true);
-    try {
-      const res = await enrollInPlan({ planName, ...fitnessData });
-      const membership = res.data?.data ?? res.data;
-      setEnrolledPlan(membership);
-      setActiveMembership(membership);
-      setShowSuccessModal(true);
-      sessionStorage.removeItem("fittrack_pending_plan");
-      sessionStorage.removeItem("fittrack_pending_answers");
-      toast.success(`Successfully enrolled in ${planName} plan!`);
-    } catch (err) {
-      const msg = getErrorMessage(err);
-      if (err.response?.status === 401) {
-        toast.error("Session expired or token missing. Please sign in again.");
-        sessionStorage.setItem("fittrack_pending_plan", planName);
-        sessionStorage.setItem("fittrack_pending_answers", JSON.stringify(fitnessData));
-        navigate(`/login?plan=${encodeURIComponent(planName)}`);
-      } else if (err.response?.status === 409) {
-        toast.error("You already have an active membership!");
-        setActiveMembership({ planName });
-      } else {
-        toast.error(msg || "Enrollment failed. Please try again.");
-      }
-    } finally {
-      setEnrolling(false);
-    }
+  const handleCheckoutSuccess = (enrolledData) => {
+    setActiveMembership(enrolledData);
+    sessionStorage.removeItem("fittrack_pending_plan");
+    sessionStorage.removeItem("fittrack_pending_answers");
   };
 
   return (
@@ -851,16 +738,15 @@ const LandingPage = () => {
                   </ul>
                   {activeMembership?.planName === plan.name ? (
                     <span className="lp-btn lp-btn-enrolled">
-                      <HiOutlineCheckCircle style={{ fontSize: '1.1em' }} /> Enrolled
+                      <HiOutlineCheckCircle style={{ fontSize: '1.1em' }} /> Enrolled • Active
                     </span>
                   ) : (
                     <button
                       type="button"
                       onClick={() => handleChoosePlan(plan.name)}
-                      disabled={enrolling}
                       className={`lp-btn ${plan.featured || hasDiscount ? "lp-btn-primary" : "lp-btn-ghost"}`}
                     >
-                      {enrolling ? "Enrolling…" : hasDiscount ? `Choose Plan (${discountPct}% OFF)` : "Choose Plan"}
+                      {hasDiscount ? `Buy Plan (${discountPct}% OFF)` : "Buy Membership Plan"}
                     </button>
                   )}
                 </article>
@@ -1047,151 +933,15 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
-      {/* ── FITNESS QUESTIONNAIRE MODAL ────────────── */}
-      {showQuestionnaire && (
-        <div className="lp-modal-overlay" onClick={() => setShowQuestionnaire(false)}>
-          <div className="lp-modal lp-questionnaire-modal" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="lp-modal-close"
-              onClick={() => setShowQuestionnaire(false)}
-              aria-label="Close"
-            >
-              <HiXMark />
-            </button>
 
-            {/* Progress Bar */}
-            <div className="lp-q-progress">
-              {questionnaireSteps.map((_, i) => (
-                <div
-                  key={i}
-                  className={`lp-q-progress-dot ${i <= questionStep ? "active" : ""} ${i < questionStep ? "done" : ""}`}
-                />
-              ))}
-            </div>
-
-            <div className="lp-q-step-label">
-              Step {questionStep + 1} of {questionnaireSteps.length}
-            </div>
-
-            {questionStep < questionnaireSteps.length ? (
-              <>
-                <div className="lp-q-icon">{questionnaireSteps[questionStep].icon}</div>
-                <h3 className="lp-modal-title">{questionnaireSteps[questionStep].question}</h3>
-                <p className="lp-modal-subtitle" style={{ marginBottom: 20 }}>
-                  Enrolling in <strong>{selectedPlanName}</strong> plan
-                  {planDiscountMap[selectedPlanName] && (
-                    <span className="lp-q-discount-tag">
-                      {" "}· ₹{planDiscountMap[selectedPlanName].discountedPrice?.toLocaleString("en-IN")} ({planDiscountMap[selectedPlanName].discountPercentage}% OFF)
-                    </span>
-                  )}
-                </p>
-
-                <div className="lp-q-options">
-                  {questionnaireSteps[questionStep].options.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      className={`lp-q-option ${fitnessAnswers[questionnaireSteps[questionStep].key] === opt.value ? "selected" : ""}`}
-                      onClick={() => handleQuestionSelect(questionnaireSteps[questionStep].key, opt.value)}
-                    >
-                      <span className="lp-q-option-emoji">{opt.emoji}</span>
-                      <div className="lp-q-option-text">
-                        <strong>{opt.label}</strong>
-                        <span>{opt.desc}</span>
-                      </div>
-                      {fitnessAnswers[questionnaireSteps[questionStep].key] === opt.value && (
-                        <HiOutlineCheckCircle className="lp-q-option-check" />
-                      )}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="lp-q-nav">
-                  {questionStep > 0 && (
-                    <button
-                      type="button"
-                      className="lp-btn lp-btn-ghost"
-                      onClick={() => setQuestionStep((s) => s - 1)}
-                    >
-                      ← Back
-                    </button>
-                  )}
-                  {questionStep === questionnaireSteps.length - 1 && fitnessAnswers.dietPreference && (
-                    <button
-                      type="button"
-                      className="lp-btn lp-btn-primary"
-                      onClick={handleQuestionnaireSubmit}
-                    >
-                      Complete Enrollment <HiOutlineArrowRight />
-                    </button>
-                  )}
-                </div>
-              </>
-            ) : null}
-          </div>
-        </div>
-      )}
-
-      {/* ── ENROLLMENT SUCCESS MODAL ──────────────── */}
-      {showSuccessModal && enrolledPlan && (
-        <div className="lp-modal-overlay" onClick={() => setShowSuccessModal(false)}>
-          <div className="lp-modal" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="lp-modal-close"
-              onClick={() => setShowSuccessModal(false)}
-              aria-label="Close"
-            >
-              <HiXMark />
-            </button>
-            <div className="lp-modal-icon">
-              <HiOutlineCheckCircle />
-            </div>
-            <h3 className="lp-modal-title">Welcome to FitTrack!</h3>
-            <p className="lp-modal-subtitle">
-              You've been successfully enrolled in the{" "}
-              <strong>{enrolledPlan.planName}</strong> plan.
-            </p>
-            <div className="lp-modal-details">
-              <div className="lp-modal-detail-row">
-                <span>Plan</span>
-                <strong>{enrolledPlan.planName}</strong>
-              </div>
-              <div className="lp-modal-detail-row">
-                <span>Price</span>
-                <strong>₹{enrolledPlan.planPrice?.toLocaleString("en-IN")}</strong>
-              </div>
-              {enrolledPlan.originalPrice && enrolledPlan.originalPrice > enrolledPlan.planPrice && (
-                <div className="lp-modal-detail-row">
-                  <span>Discount Applied</span>
-                  <strong style={{ color: "#10B981" }}>
-                    {enrolledPlan.discountPercentage}% OFF (Saved ₹{(enrolledPlan.originalPrice - enrolledPlan.planPrice).toLocaleString("en-IN")})
-                  </strong>
-                </div>
-              )}
-              <div className="lp-modal-detail-row">
-                <span>Valid Until</span>
-                <strong>
-                  {new Date(enrolledPlan.endDate).toLocaleDateString("en-IN", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </strong>
-              </div>
-            </div>
-            <button
-              className="lp-btn lp-btn-primary"
-              style={{ width: "100%", marginTop: 16 }}
-              onClick={() => {
-                setShowSuccessModal(false);
-                navigate("/for-members");
-              }}
-            >
-              Go to Member Portal <HiOutlineArrowRight />
-            </button>
-          </div>
-        </div>
-      )}
+      {/* ── CHECKOUT & PAYMENT MODAL ────────────────── */}
+      <CheckoutModal
+        isOpen={showCheckoutModal}
+        onClose={() => setShowCheckoutModal(false)}
+        planName={selectedPlanName}
+        discount={planDiscountMap[selectedPlanName]}
+        onSuccess={handleCheckoutSuccess}
+      />
     </div>
   );
 };

@@ -16,8 +16,15 @@ export const createMembership = (data) => Membership.create(data);
  * @param {string} authId
  * @returns {Promise<Document|null>}
  */
-export const findActiveMembershipByAuthId = (authId) =>
-  Membership.findOne({ authId, status: "ACTIVE" });
+export const findActiveMembershipByAuthId = async (authId) => {
+  const membership = await Membership.findOne({ authId, status: "ACTIVE" });
+  if (membership && membership.endDate && new Date(membership.endDate) < new Date()) {
+    membership.status = "EXPIRED";
+    await membership.save();
+    return null;
+  }
+  return membership;
+};
 
 /**
  * Find all memberships for a given auth ID (including expired/cancelled).

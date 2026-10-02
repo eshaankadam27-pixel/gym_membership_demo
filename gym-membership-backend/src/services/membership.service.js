@@ -81,8 +81,9 @@ export const enrollMember = async (authId, planData) => {
   });
 
   // Automatically record payment
+  let paymentRecord = null;
   try {
-    await Payment.create({
+    paymentRecord = await Payment.create({
       authId,
       userId: user?._id || undefined,
       membershipId: membership._id,
@@ -99,7 +100,17 @@ export const enrollMember = async (authId, planData) => {
     console.error("Failed to auto-record payment on enrollment:", err);
   }
 
-  return membership;
+  const result = membership.toObject ? membership.toObject() : { ...membership._doc || membership };
+  if (paymentRecord) {
+    result.payment = {
+      transactionId: paymentRecord.transactionId,
+      paymentMethod: paymentRecord.paymentMethod,
+      amount: paymentRecord.amount,
+      status: paymentRecord.status,
+    };
+  }
+
+  return result;
 };
 
 /**
